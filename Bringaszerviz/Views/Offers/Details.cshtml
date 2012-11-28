@@ -1,0 +1,50 @@
+﻿@model Bringaszerviz.Models.Offer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Offer</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ticketID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ticketID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.serviceID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.serviceID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.deadline)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.deadline)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.price)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.price)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.offerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
