@@ -4,47 +4,35 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Details of the Offer</h2>
 
-<fieldset>
-    <legend>Offer</legend>
+<table>
+    <tr>
+        <td>@Html.Label("Description")</td>
+        <td>
+            @Html.DisplayFor(model => model.description)
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.Label("Deadline")</td>
+        <td>
+            @Html.DisplayFor(model => model.deadline)
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.Label("Price")</td>
+        <td>
+            @Html.DisplayFor(model => model.price)
+        </td>
+    </tr>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ticketID)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ticketID)
-    </div>
+</table>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.serviceID)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.serviceID)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.description)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.deadline)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.deadline)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.price)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.price)
-    </div>
-</fieldset>
 <p>
+<u>@Html.ActionLink("Back", "ListAll", "Tickets")</u>
+</p>
+
+@*<p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.offerID }) |
     @Html.ActionLink("Back to List", "Index")
-</p>
+</p>*@

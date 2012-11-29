@@ -328,6 +328,12 @@
   <ItemGroup>
     <Content Include="Views\Tickets\ListAll.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Offers\ListAll.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\Index.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

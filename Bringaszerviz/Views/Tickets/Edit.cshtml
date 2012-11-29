@@ -13,17 +13,11 @@
         <legend>Ticket</legend>
 
         @Html.HiddenFor(model => model.ticketID)
-
+        @Html.HiddenFor(model => model.ownerID)
+        @Html.HiddenFor(model => model.solved)
         <div class="editor-label">
-            @Html.LabelFor(model => model.ownerID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ownerID)
-            @Html.ValidationMessageFor(model => model.ownerID)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.description)
+            @*@Html.LabelFor(model => model.description)*@
+            @Html.Label("Modify Description")
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.description)

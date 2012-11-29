@@ -12,21 +12,23 @@
     <fieldset>
         <legend>Offer</legend>
 
-        <div class="editor-label">
+@*        <div class="editor-label">
             @Html.LabelFor(model => model.ticketID)
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.ticketID)
             @Html.ValidationMessageFor(model => model.ticketID)
-        </div>
+        </div>*@
 
-        <div class="editor-label">
+        @*<div class="editor-label">
             @Html.LabelFor(model => model.serviceID)
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.serviceID)
             @Html.ValidationMessageFor(model => model.serviceID)
-        </div>
+        </div>*@
+        
+        <input type="hidden" name="ticketId" value="@ViewBag.ticketId" />
 
         <div class="editor-label">
             @Html.LabelFor(model => model.description)
@@ -53,13 +55,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Create"/>
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "ListAll", "Tickets")
 </div>
 
 @section Scripts {

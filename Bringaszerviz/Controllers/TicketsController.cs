@@ -25,6 +25,7 @@ namespace Bringaszerviz.Controllers
             var curUser = (from u in db.UserProfiles
                                where u.UserName == User.Identity.Name
                                select u).Single();
+            ViewBag.curUser = curUser;
 
             var mytickets = (from u in db.Tickets
                                where u.ownerID == curUser.UserId
@@ -33,10 +34,15 @@ namespace Bringaszerviz.Controllers
             return View(mytickets.ToList());       
         }
 
-        // GET: /Tickets/
+        // GET: /Tickets/ListAll
         [Authorize(Roles = "Service")]
         public ActionResult ListAll()
         {
+            var curUser = (from u in db.UserProfiles
+                           where u.UserName == User.Identity.Name
+                           select u).Single();
+            ViewBag.curUser = curUser;
+
             var tickets = from s in db.Tickets select s;
             return View(tickets.ToList());
         }
@@ -68,7 +74,6 @@ namespace Bringaszerviz.Controllers
 
         //
         // POST: /Tickets/Create
-
         [HttpPost]
         [Authorize(Roles = "Customer")]
         public ActionResult Create(Ticket ticket)
@@ -79,7 +84,7 @@ namespace Bringaszerviz.Controllers
                                where u.UserName == User.Identity.Name
                                select u).Single();
                 ticket.ownerID = curUser.UserId;
-                
+                ticket.solved = false;
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -138,6 +143,7 @@ namespace Bringaszerviz.Controllers
         {
             Ticket ticket = db.Tickets.Find(id);
             db.Tickets.Remove(ticket);
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

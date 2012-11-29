@@ -4,35 +4,44 @@
     ViewBag.Title = "All Tickets";
 }
 
-<h2>All Tickets Tickets</h2>
+<h2>All Tickets</h2>
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
 <table>
     <tr>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.ownerID)
-        </th>
+        </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.description)
+           @* @Html.DisplayNameFor(model => model.description)*@
+           Description
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.ownerID)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.description)
         </td>
         <td>
-            @Html.ActionLink("Create Offer", "Edit", new { id=item.ticketID })
-            @*@Html.ActionLink("Details", "Details", new { id=item.ticketID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ticketID })*@
+            @if (item.offers != null)
+            {
+                if (item.offers.Find(s => s.serviceID == (int)ViewBag.curUser.UserId) == null)
+                {@Html.ActionLink("Create Offer", "Create", "Offers", new { ticketId = item.ticketID }, null);
+                }
+                else if (item.offers.Find(s => (s.serviceID == (int)ViewBag.curUser.UserId) && s.accepted) != null)
+                     {@Html.ActionLink("View Offer", "Details", "Offers", new { id = item.offers.First(s => s.serviceID == (int)ViewBag.curUser.UserId).offerID }, null);
+                     }
+                     else
+                     {@Html.ActionLink("View Offer", "Edit", "Offers", new { id = item.offers.First(s => s.serviceID == (int)ViewBag.curUser.UserId).offerID }, null);
+                     }
+            }
         </td>
+        @if (item.offers.Find(s => (s.serviceID == (int)ViewBag.curUser.UserId) && s.accepted) != null)
+        { <td><a2>@Html.Label("ACCEPTED")</a2></td> }
     </tr>
 }
 

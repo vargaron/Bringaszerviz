@@ -17,9 +17,23 @@ namespace Bringaszerviz.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        private BikeServiceContext db = new BikeServiceContext();
+        
+        // List datas of the selected user
+        public ActionResult Index(int id)
+        {
+            //var tickets = from s in db.Tickets select s;
+            //return View(tickets.ToList());
+
+            var selectedUser = (from u in db.UserProfiles
+                           where u.UserId == id
+                           select u).Single();
+            return View(selectedUser);
+        }
+        
+
         //
         // GET: /Account/Login
-
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -107,12 +121,38 @@ namespace Bringaszerviz.Controllers
                     {
                         Roles.AddUsersToRoles(new[] { model.UserName }, new[] { "Service" });
                         WebSecurity.Login(model.UserName, model.Password);
+
+                        var curUser = (from u in db.UserProfiles
+                                       where u.UserName == model.UserName
+                                       select u).Single();
+
+                        var user = db.UserProfiles.Find(curUser.UserId);
+                        user.Name = model.Name;
+                        user.Email = model.Email;
+                        user.Phone = model.Phone;
+                        user.Address = model.Address;
+                        db.Entry(user).State = System.Data.EntityState.Modified;
+                        db.SaveChanges();
+
                         return RedirectToAction("ListAll", "Tickets");
                     }
-                    else// if (model.Type.Equals("Customer"))
+                    else if (model.Type.Equals("Customer"))
                     {
                         Roles.AddUsersToRoles(new[] { model.UserName }, new[] { "Customer" });
                         WebSecurity.Login(model.UserName, model.Password);
+
+                        var curUser = (from u in db.UserProfiles
+                                       where u.UserName == model.UserName
+                                       select u).Single();
+
+                        var user = db.UserProfiles.Find(curUser.UserId);
+                        user.Name = model.Name;
+                        user.Email = model.Email;
+                        user.Phone = model.Phone;
+                        user.Address = model.Address;
+                        db.Entry(user).State = System.Data.EntityState.Modified;
+                        db.SaveChanges();
+
                         return RedirectToAction("Index", "Tickets");
                     }         
                     

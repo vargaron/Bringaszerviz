@@ -13,22 +13,7 @@
         <legend>Offer</legend>
 
         @Html.HiddenFor(model => model.offerID)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ticketID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ticketID)
-            @Html.ValidationMessageFor(model => model.ticketID)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.serviceID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.serviceID)
-            @Html.ValidationMessageFor(model => model.serviceID)
-        </div>
+        @Html.HiddenFor(model => model.accepted)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.description)
@@ -61,7 +46,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "ListAll", "Tickets")
 </div>
 
 @section Scripts {

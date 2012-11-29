@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Bringaszerviz.Models.Offer>
+
+@{
+    ViewBag.Title = "Offers of the Ticket";
+}
+
+<h2>Offers of the Ticket</h2>
+
+<table>
+    <tr>
+        <th>
+            Service
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.description)*@
+            Description
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.deadline)*@
+            Deadline
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.price)*@
+            Price
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("View Service", "Index", "Account", new { id = item.serviceID }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.deadline)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.price)
+        </td>
+        <td>
+            @if (!item.ticket.solved)
+            {
+                @Html.ActionLink("Accept", "Accept", new { id = item.offerID })       
+            }
+            else if (item.accepted)
+            {@Html.Label("ACCEPTED")}
+           
+        </td>
+    </tr>
+}
+
+</table>
+
+<br />
+<u>@Html.ActionLink("Back", "Index", "Tickets") </u>

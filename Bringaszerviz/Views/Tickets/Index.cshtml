@@ -7,31 +7,37 @@
 <h2>My Tickets</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <u>@Html.ActionLink("Create New", "Create")</u>
 </p>
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ownerID)
+            @*@Html.DisplayNameFor(model => model.description)*@
+            Description
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
+        <th></th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ownerID)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.description)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ticketID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ticketID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ticketID })
+            @*@Html.ActionLink("Details", "Details", new { id=item.ticketID }) |*@
+            @if (item.offers.Count == 0)
+            {
+                @Html.ActionLink("Delete", "Delete", new { id = item.ticketID }) 
+            }   
+                         
+        </td>
+        <td>
+            @if (item.offers.Count != 0)
+            {
+                @Html.ActionLink("--> View Offers <--", "ListAll", "Offers", new { ticketId = item.ticketID }, null);
+            }
         </td>
     </tr>
 }

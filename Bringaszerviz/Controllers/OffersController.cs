@@ -15,10 +15,25 @@ namespace Bringaszerviz.Controllers
 
         //
         // GET: /Offers/
-
         public ActionResult Index()
         {
             return View(db.Offers.ToList());
+        }
+
+        // GET: /Offers/ListAll
+        [Authorize(Roles = "Customer")]
+        public ActionResult ListAll(int ticketId)
+        {
+            var ticket = (from t in db.Tickets where t.ticketID == ticketId select t).Single();
+
+            var curUser = (from u in db.UserProfiles
+                           where u.UserName == User.Identity.Name
+                           select u).Single();
+            ViewBag.curUser = curUser;
+
+            var myoffers = ticket.offers;
+
+            return View(myoffers.ToList());
         }
 
         //
@@ -36,23 +51,37 @@ namespace Bringaszerviz.Controllers
 
         //
         // GET: /Offers/Create
-
-        public ActionResult Create()
+        [Authorize(Roles = "Service")]
+        public ActionResult Create(int ticketId)
         {
-            return View();
+            Offer offer = new Offer();
+            offer.deadline = DateTime.Now.AddDays(1);
+            ViewBag.ticketId = ticketId;
+
+            return View(offer);
         }
 
         //
         // POST: /Offers/Create
-
+        [Authorize(Roles = "Service")]
         [HttpPost]
-        public ActionResult Create(Offer offer)
+        public ActionResult Create(Offer offer, int ticketId)
         {
             if (ModelState.IsValid)
             {
+                var curUser = (from u in db.UserProfiles
+                               where u.UserName == User.Identity.Name
+                               select u).Single();
+                offer.serviceID = curUser.UserId;
+
+                var ticket = (from t in db.Tickets where t.ticketID == ticketId select t).Single();
+                offer.ticket = ticket;
+                offer.accepted = false;
+
                 db.Offers.Add(offer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ListAll", "Tickets");
+
             }
 
             return View(offer);
@@ -68,6 +97,7 @@ namespace Bringaszerviz.Controllers
             {
                 return HttpNotFound();
             }
+            
             return View(offer);
         }
 
@@ -79,9 +109,14 @@ namespace Bringaszerviz.Controllers
         {
             if (ModelState.IsValid)
             {
+                var curUser = (from u in db.UserProfiles
+                               where u.UserName == User.Identity.Name
+                               select u).Single();
+                offer.serviceID = curUser.UserId;
+                
                 db.Entry(offer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ListAll", "Tickets");
             }
             return View(offer);
         }
@@ -115,6 +150,16 @@ namespace Bringaszerviz.Controllers
         {
             db.Dispose();
             base.Dispose(disposing);
+        }
+
+        public ActionResult Accept(int id)
+        {
+            Offer offer = db.Offers.Find(id);
+            offer.accepted = true;
+            offer.ticket.solved = true;
+
+            db.SaveChanges();
+            return RedirectToAction("ListAll", new { ticketId = offer.ticket.ticketID });
         }
     }
 }
